@@ -1,0 +1,130 @@
+[
+  {
+    "value": "civilEmergencies",
+    "text": "Civil Emergencies"
+  },
+  {
+    "value": "civilUnrest",
+    "text": "Civil Unrest"
+  },
+  {
+    "value": "climateChange",
+    "text": "Climate Change"
+  },
+  {
+    "value": "commerce",
+    "text": "Commerce"
+  },
+  {
+    "value": "conflict",
+    "text": "Conflict"
+  },
+  {
+    "value": "corruption",
+    "text": "Corruption"
+  },
+  {
+    "value": "covid19",
+    "text": "Covid19"
+  },
+  {
+    "value": "crime",
+    "text": "Crime"
+  },
+  {
+    "value": "cyberSecurity",
+    "text": "Cyber Security"
+  },
+  {
+    "value": "defence",
+    "text": "Defence"
+  },
+  {
+    "value": "diplomacy",
+    "text": "Diplomacy"
+  },
+  {
+    "value": "disinformation",
+    "text": "Dis-Information"
+  },
+  {
+    "value": "economics",
+    "text": "Economics"
+  },
+  {
+    "value": "energy",
+    "text": "Energy"
+  },
+  {
+    "value": "health",
+    "text": "Health"
+  },
+  {
+    "value": "humanitarian",
+    "text": "Humanitarian"
+  },
+  {
+    "value": "maritimeShipping",
+    "text": "Maritime Shipping"
+  },
+  {
+    "value": "media",
+    "text": "Media"
+  },
+  {
+    "value": "messaging",
+    "text": "Messaging"
+  },
+  {
+    "value": "migration",
+    "text": "Migration"
+  },
+  {
+    "value": "nationalSecurity",
+    "text": "National Security"
+  },
+  {
+    "value": "naturalDisaster",
+    "text": "Natural Disaster"
+  },
+  {
+    "value": "nonProliferation",
+    "text": "Non-Proliferation"
+  },
+  {
+    "value": "politics",
+    "text": "Politics"
+  },
+  {
+    "value": "sanctions",
+    "text": "Sanctions"
+  },
+  {
+    "value": "space",
+    "text": "Space"
+  },
+  {
+    "value": "technology",
+    "text": "Technology"
+  },
+  {
+    "value": "terrorism",
+    "text": "Terrorism"
+  },
+  {
+    "value": "transport",
+    "text": "Transport"
+  },
+  {
+    "value": "uKGE",
+    "text": "UK-GE"
+  },
+  {
+    "value": "weather",
+    "text": "Weather"
+  },
+  {
+    "value": "winterRisks",
+    "text": "Winter Risks"
+  }
+]

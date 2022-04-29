@@ -1,3 +1,47 @@
 $govuk-global-styles: true;
 
 @import "node_modules/govuk-frontend/govuk/all";
+
+.pull-right {
+  float: right;
+}
+
+// Remove header logo
+.govuk-header__logo {
+	display: none;
+}
+
+.govuk-header__content {
+	padding-left: 0;
+}
+// End remove header logo
+
+// Remove blue line below the header
+.govuk-header__container {
+	border-bottom: none;
+}
+
+.govuk-header__container {
+	margin-bottom: 0;
+}
+
+.govuk-header {
+	margin-bottom: 0;
+	border-bottom: none;
+}
+// End remove blue line below the header
+
+.govuk-width-container {
+	max-width: 95%;
+}
+
+@media (min-width: 1300px) {
+	.govuk-width-container {
+		max-width: 1280px;
+	}
+}
+
+.govuk-checkboxes {
+  max-height: 300px;
+  overflow: auto;
+}

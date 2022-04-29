@@ -3,10 +3,11 @@
 
 # Environment variables
 
-| name     | description      | required | default |            valid            | notes |
-|----------|------------------|:--------:|---------|:---------------------------:|-------|
-| NODE_ENV | Node environment |    no    |         | development,test,production |       |
-| PORT     | Port number      |    no    | 3000    |                             |       |
+| name               | description              | required | default |            valid            | notes |
+|--------------------|--------------------------|:--------:|---------|:---------------------------:|-------|
+| NODE_ENV           | Node environment         |    no    |         | development,test,production |       |
+| PORT               | Port number              |    no    | 3000    |                             |       |
+| EVENT_TABLE_NAME   | Dynamo event table name  |    yes   |         |                             |       |
 
 # Prerequisites
 

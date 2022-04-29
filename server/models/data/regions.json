@@ -1,0 +1,30 @@
+[
+  {
+    "value": "AF",
+    "text": "Africa"
+  },
+  {
+    "value": "NA",
+    "text": "North America"
+  },
+  {
+    "value": "OC",
+    "text": "Oceania"
+  },
+  {
+    "value": "AN",
+    "text": "Antarctica"
+  },
+  {
+    "value": "AS",
+    "text": "Asia"
+  },
+  {
+    "value": "EU",
+    "text": "Europe"
+  },
+  {
+    "value": "SA",
+    "text": "South America"
+  }
+]

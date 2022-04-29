@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% set formAction = path %}
+
+{% block beforeContent %}
+  {{ super() }}
+  <!-- {{ govukBackLink({
+    text: "Back",
+    href: previousPath
+  }) }} -->
+{% endblock %}
+
+{% block content %}
+  {% if errorList.length %}
+    {{
+      govukErrorSummary({
+        titleText: "There is a problem",
+        errorList: errorList
+      })
+    }}
+  {% endif %}
+
+  {% block beforeForm %}
+  {% endblock %}
+
+  <form id="form" method="post" action="{{formAction | default('')}}"
+    novalidate enctype="{{formEncType | default('application/x-www-form-urlencoded')}}">
+    {% block form %}
+    {% endblock %}
+
+    {% block button %}
+      {{ govukButton({
+        text: formSubmitButtonText | default("Continue"),
+        preventDoubleClick: true
+      }) }}
+    {% endblock %}
+  </form>
+
+  {% block afterForm %}
+  {% endblock %}
+{% endblock %}

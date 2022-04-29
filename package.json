@@ -20,10 +20,12 @@
     "@hapi/inert": "6.0.5",
     "@hapi/log": "1.0.0",
     "@hapi/vision": "6.1.0",
+    "aws-sdk": "2.1124.0",
     "blipp": "4.0.2",
     "govuk-frontend": "4.0.1",
     "joi": "17.6.0",
-    "nunjucks": "3.2.3"
+    "nunjucks": "3.2.3",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "@hapi/code": "8.0.7",
