@@ -1,5 +1,6 @@
 const hapi = require('@hapi/hapi')
 const config = require('./config')
+const data = require('./data')
 
 async function createServer () {
   // Create the hapi server
@@ -7,9 +8,9 @@ async function createServer () {
     port: config.port,
     host: config.host,
     routes: {
-      // auth: {
-      //   mode: 'required'
-      // },
+      auth: {
+        mode: 'required'
+      },
       security: true,
       validate: {
         options: {
@@ -29,9 +30,13 @@ async function createServer () {
     }
   })
 
+  await data.loadStaticData()
+
   // Register the plugins
   await server.register(require('@hapi/inert'))
+  await server.register(require('./plugins/auth'))
   await server.register(require('./plugins/views'))
+  await server.register(require('./plugins/views-context'))
   await server.register(require('./plugins/router'))
   await server.register(require('./plugins/admin-router'), {
     routes: {

@@ -1,28 +1,20 @@
-{% extends 'layout.html' %}
+{% extends "layout.html" %}
 
-{% from "govuk/components/date-input/macro.njk" import govukDateInput %}
+{% set mainClasses = "govuk-main-wrapper--auto-spacing" %}
 
 {% block content %}
-  <div class="govuk-body">
-    {{
-      govukDateInput({
-        id: "dob",
-        namePrefix: "dob",
-        fieldset: {
-          legend: {
-            text: "What is your date of birth?",
-            isPageHeading: true,
-            classes: "govuk-fieldset__legend--xl"
-          }
-        },
-        hint: {
-          text: "For example, 31 3 1980"
-        }
-      })
-    }}
-
-
-    <p>{{title}}</p>
-    <p>{{message}}</p>
-  </div>
+  {% if credentials.isAdmin %}
+    {{ govukButton({
+      text: "New post",
+      href: "/admin/event/create",
+      classes: "pull-right"
+    }) }}
+  {% endif  %}
+  {{ govukTable({
+    caption: "Incidents",
+    captionClasses: "govuk-table__caption--m",
+    firstCellIsHeader: false,
+    head: head,
+    rows: rows
+  }) }}
 {% endblock %}

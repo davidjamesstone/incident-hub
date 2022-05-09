@@ -1,0 +1,10 @@
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% macro themeTags(themes) %}
+  {% for theme in themes %}
+    {{ govukTag({
+      text: theme.name,
+      classes: "govuk-tag--grey"
+    }) }}
+  {% endfor %}
+{% endmacro %}

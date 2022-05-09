@@ -1,4 +1,4 @@
-const config = require('../config')
+const config = require('../../config')
 
 const baseMessages = {
   'string.max': '{{#label}} must be {{#limit}} characters or fewer'

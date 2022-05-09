@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% from "partials/event.html" import eventMedia %}
+{% from "partials/event.html" import eventSummary %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/"
+      },
+      {
+        text: group.name
+      }
+    ]
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <div class="govuk-body">
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l">{{group.name}}</span>
+      {{group.description}}
+    </h1>
+    <p class="govuk-body-l">{{group.summary}}</p>
+
+    {% for event in events %}
+      <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+      {{eventMedia(event)}}
+    {% endfor %}
+
+    <br>
+    <details class="govuk-details" data-module="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Debug
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        <pre>{{group | dump(2)}}</pre>
+        <pre>{{events | dump(2)}}</pre>
+      </div>
+    </details>
+  </div>
+{% endblock %}

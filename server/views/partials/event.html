@@ -1,0 +1,93 @@
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/summary-list/macro.njk" import govukSummaryList %}
+{% from "partials/impact-rating-tag.html" import impactRatingTag %}
+{% from "partials/country-tag.html" import countryTag %}
+{% from "partials/region-tag.html" import regionTag %}
+{% from "partials/theme-tags.html" import themeTags %}
+
+{% macro eventMedia(event, noLink = false) %}
+  <div>
+    <h3 class="govuk-heading-m">
+      <span class="govuk-caption-m">{{event.createdAt | fromnow}}</span>
+      {% if noLink %}
+        {{ impactRatingTag(event.impactRating) }}&nbsp;{{event.title}}</a>
+      {% else %}
+        {{ impactRatingTag(event.impactRating) }}&nbsp;<a href="/event/{{event.id}}" class="govuk-link--no-visited-state">{{event.title}}</a>
+      {% endif %}
+    </h3>
+    
+    
+    <div class="pull-right">
+      {{ regionTag(event.region.name) }}
+      {{ countryTag(event.country.name) }}
+    </div>
+    <p>{{event.description}}</p>        
+    <img src="https://picsum.photos/seed/{{event.id}}/800/600" style="max-width: 100%;" alt="image">
+    <br>
+    {{ themeTags(event.themes) }}
+  </div>
+{% endmacro %}
+
+{% macro eventSummary(event) %}
+  {{ govukSummaryList({
+    classes: 'govuk-summary-list--no-border',
+    rows: [
+      {
+        key: {
+          text: "Group"
+        },
+        value: {
+          html: "<a href='/group/" + event.group.id + "'>" + event.group.name + "</a>"
+        }
+      },
+      {
+        key: {
+          text: "Region"
+        },
+        value: {
+          text: event.region.name
+        }
+      },
+      {
+        key: {
+          text: "Country"
+        },
+        value: {
+          text: event.country.name
+        }
+      },
+      {
+        key: {
+          text: "Source"
+        },
+        value: {
+          text: event.source
+        }
+      },
+      {
+        key: {
+          text: "Source classification"
+        },
+        value: {
+          text: event.sourceClassification
+        }
+      },
+      {
+        key: {
+          text: "Created at"
+        },
+        value: {
+          text: event.createdAt
+        }
+      },
+      {
+        key: {
+          text: "Updated at"
+        },
+        value: {
+          text: event.updatedAt
+        }
+      }
+    ]
+  }) }}
+{% endmacro %}

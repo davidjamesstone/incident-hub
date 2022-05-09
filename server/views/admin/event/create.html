@@ -7,9 +7,10 @@
 {% block form %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+      {{ govukSelect(fields.groupId) }}
       {{ govukInput(fields.title) }}
       {{ govukCharacterCount(fields.description) }}
-      {{ govukInput(fields.dateTime) }}
+      {{ govukInput(fields.date) }}
 
       <fieldset class="govuk-fieldset">
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
@@ -20,29 +21,12 @@
 
         <div class="govuk-grid-row">
           <div class="govuk-grid-column-one-half">
-            {{ govukSelect(fields.country) }}
+            {{ govukSelect(fields.countryId) }}
           </div>
           <div class="govuk-grid-column-one-half">
-            {{ govukSelect(fields.region) }}
+            {{ govukSelect(fields.regionId) }}
           </div>
         </div>
-
-        <fieldset class="govuk-fieldset">
-          <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-            <h1 class="govuk-fieldset__heading">
-              Coordinates
-            </h1>
-          </legend>
-
-          <div class="govuk-grid-row">
-            <div class="govuk-grid-column-one-half">
-              {{ govukInput(fields.longitude) }}
-            </div>
-            <div class="govuk-grid-column-one-half">
-              {{ govukInput(fields.latitude) }}
-            </div>
-          </div>
-        </fieldset>
       </fieldset>
 
       {{ govukRadios(fields.source) }}

@@ -4,6 +4,9 @@ module.exports = [
     path: '/robots.txt',
     handler: {
       file: 'server/public/static/robots.txt'
+    },
+    options: {
+      auth: false
     }
   },
   {
@@ -11,6 +14,9 @@ module.exports = [
     path: '/assets/all.js',
     handler: {
       file: 'node_modules/govuk-frontend/govuk/all.js'
+    },
+    options: {
+      auth: false
     }
   },
   {
@@ -24,6 +30,9 @@ module.exports = [
           'node_modules/govuk-frontend/govuk/assets'
         ]
       }
+    },
+    options: {
+      auth: false
     }
   }
 ]

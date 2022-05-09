@@ -1,0 +1,20 @@
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% macro impactRatingTag(rating) %}
+  {% if rating == "low" %}
+    {{ govukTag({
+      text: rating,
+      classes: "govuk-tag--green"
+    }) }}
+  {% elif rating == "medium" %}
+    {{ govukTag({
+      text: rating,
+      classes: "govuk-tag--yellow"
+    }) }}
+  {% elif rating == "high" %}
+    {{ govukTag({
+      text: rating,
+      classes: "govuk-tag--red"
+    }) }}
+  {% endif %}
+{% endmacro %}

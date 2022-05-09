@@ -1,10 +1,12 @@
 const joi = require('joi')
 const { BaseViewModel, baseMessages } = require('../../form')
-const countries = require('../../data/countries.json')
-const regions = require('../../data/regions.json')
-const themes = require('../../data/themes.json')
+const { countries, regions, themes } = require('../../../../data')
+const dbMapper = rec => ({ value: rec.id, text: rec.name })
 
 const PAGE_HEADING = 'New event'
+
+const GROUP_KEY = 'groupId'
+const GROUP_LABEL = 'Group'
 
 const TITLE_KEY = 'title'
 const TITLE_LABEL = 'Title'
@@ -19,39 +21,27 @@ const DESCRIPTION_MESSAGES = {
   'string.empty': 'Enter a description'
 }
 
-const DATE_TIME_KEY = 'dateTime'
+const DATE_TIME_KEY = 'date'
 const DATE_TIME_LABEL = 'Date and Time'
 const DATE_TIME_MESSAGES = {
   'string.empty': 'Enter a date and time'
 }
 
-const COUNTRY_KEY = 'country'
+const COUNTRY_KEY = 'countryId'
 const COUNTRY_LABEL = 'Country'
 const COUNTRY_MESSAGES = {
   'any.only': 'Choose a country',
   'string.empty': 'Choose a country'
 }
-const COUNTRY_OPTIONS = countries
+const COUNTRY_OPTIONS = countries.map(dbMapper)
 
-const REGION_KEY = 'region'
+const REGION_KEY = 'regionId'
 const REGION_LABEL = 'Region'
 const REGION_MESSAGES = {
   'any.only': 'Choose a region',
   'string.empty': 'Choose a region'
 }
-const REGION_OPTIONS = regions
-
-const LONGITUDE_KEY = 'longitude'
-const LONGITUDE_LABEL = 'Longitude'
-const LONGITUDE_MESSAGES = {
-  'string.empty': 'Enter a longitude'
-}
-
-const LATITUDE_KEY = 'latitude'
-const LATITUDE_LABEL = 'Latitude'
-const LATITUDE_MESSAGES = {
-  'string.empty': 'Enter a latitude'
-}
+const REGION_OPTIONS = regions.map(dbMapper)
 
 const SOURCE_KEY = 'source'
 const SOURCE_LABEL = 'Source'
@@ -115,9 +105,10 @@ const IMPACT_RATING_OPTIONS = [
 
 const THEMES_KEY = 'themes'
 const THEMES_LABEL = 'Themes'
-const THEMES_OPTIONS = themes
+const THEMES_OPTIONS = themes.map(dbMapper)
 
 const schema = joi.object().keys({
+  [GROUP_KEY]: joi.string().guid().allow('').label(GROUP_LABEL).required(),
   [TITLE_KEY]: joi.string().max(70).label(TITLE_LABEL)
     .trim().required().messages(TITLE_MESSAGES),
   [DESCRIPTION_KEY]: joi.string().max(DESCRIPTION_MAX_LENGTH).label(DESCRIPTION_LABEL)
@@ -127,10 +118,6 @@ const schema = joi.object().keys({
     .label(COUNTRY_LABEL).required().messages(COUNTRY_MESSAGES),
   [REGION_KEY]: joi.string().valid(...REGION_OPTIONS.map(item => item.value))
     .label(REGION_LABEL).required().messages(REGION_MESSAGES),
-  [LONGITUDE_KEY]: joi.number().label(LONGITUDE_LABEL)
-    .required().messages(LONGITUDE_MESSAGES),
-  [LATITUDE_KEY]: joi.number().label(LATITUDE_LABEL)
-    .required().messages(LATITUDE_MESSAGES),
   [SOURCE_KEY]: joi.string().valid(...SOURCE_OPTIONS.map(item => item.value))
     .label(SOURCE_LABEL).required().messages(SOURCE_MESSAGES),
   [SOURCE_CLASSIFICATION_KEY]: joi.string().valid(...SOURCE_CLASSIFICATION_OPTIONS.map(item => item.value))
@@ -143,10 +130,20 @@ const schema = joi.object().keys({
 }).messages(baseMessages).required()
 
 class ViewModel extends BaseViewModel {
-  constructor (data, err) {
+  constructor (data, err, { groups }) {
     super(data, err, {
       pageHeading: PAGE_HEADING,
       path: '/admin/event/create'
+    })
+
+    const groupOptions = groups.map(({ id: value, name: text }) => ({ value, text }))
+    this.addField(GROUP_KEY, {
+      name: GROUP_KEY,
+      id: GROUP_KEY,
+      label: { text: GROUP_LABEL, classes: 'govuk-label--s' },
+      items: [].concat({ text: '' }, groupOptions).map(optionMapper(this.data[GROUP_KEY])),
+      value: this.data[GROUP_KEY],
+      errorMessage: this.errors[GROUP_KEY]
     })
 
     this.addField(TITLE_KEY, {
@@ -192,24 +189,6 @@ class ViewModel extends BaseViewModel {
       items: [].concat({ text: '' }, REGION_OPTIONS).map(optionMapper(this.data[REGION_KEY])),
       value: this.data[REGION_KEY],
       errorMessage: this.errors[REGION_KEY]
-    })
-
-    this.addField(LATITUDE_KEY, {
-      id: LATITUDE_KEY,
-      name: LATITUDE_KEY,
-      label: { text: LATITUDE_LABEL, classes: 'govuk-label--s' },
-      classes: 'govuk-input--width-10',
-      value: this.data[LATITUDE_KEY],
-      errorMessage: this.errors[LATITUDE_KEY]
-    })
-
-    this.addField(LONGITUDE_KEY, {
-      id: LONGITUDE_KEY,
-      name: LONGITUDE_KEY,
-      label: { text: LONGITUDE_LABEL, classes: 'govuk-label--s' },
-      classes: 'govuk-input--width-10',
-      value: this.data[LONGITUDE_KEY],
-      errorMessage: this.errors[LONGITUDE_KEY]
     })
 
     this.addField(SOURCE_KEY, {

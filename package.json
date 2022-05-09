@@ -1,5 +1,5 @@
 {
-  "name": "conduit",
+  "name": "incident-hub",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -22,15 +22,19 @@
     "@hapi/vision": "6.1.0",
     "aws-sdk": "2.1124.0",
     "blipp": "4.0.2",
+    "dayjs": "1.11.1",
+    "dynamodb-toolbox": "0.3.5",
     "govuk-frontend": "4.0.1",
     "joi": "17.6.0",
     "nunjucks": "3.2.3",
-    "uuid": "8.3.2"
+    "objection": "3.0.1",
+    "pg": "^8.7.3"
   },
   "devDependencies": {
     "@hapi/code": "8.0.7",
     "@hapi/lab": "24.6.0",
     "codeclimate-test-reporter": "0.5.1",
+    "knex": "^2.0.0",
     "node-sass": "7.0.1",
     "standard": "17.0.0"
   }

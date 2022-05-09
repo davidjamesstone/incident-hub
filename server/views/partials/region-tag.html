@@ -1,0 +1,8 @@
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+{% macro regionTag(region) %}
+  {{ govukTag({
+    text: region,
+    classes: "govuk-tag--grey"
+  }) }}
+{% endmacro %}

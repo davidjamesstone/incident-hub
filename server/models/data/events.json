@@ -1,0 +1,63 @@
+[
+  {
+    "id": "8982d728-2763-44cc-bb5c-5805f5b23ad4",
+    "title": "Boris Becker jailed: Tennis champion sentenced over bankruptcy",
+    "description": "Former Wimbledon champion Boris Becker has been jailed for two and a half years for hiding £2.5m worth of assets and loans to avoid paying debts.\r\n\r\nThe 54-year-old six-time Grand Slam champion was found guilty of four charges under the Insolvency Act.\r\n\r\nThe case centred on Becker's bankruptcy in June 2017 resulting from an unpaid loan of more than £3m on his luxury estate in Mallorca, Spain.\r\n\r\nJudge Deborah Taylor said he had shown no remorse or acceptance of guilt.\r\n\r\nReferring to Becker's previous conviction for tax evasion in Germany in 2002, she told the former world number one: \"You did not heed the warning you were given and the chance you were given by the suspended sentence and that is a significant aggravating factor...\r\n\r\n\"You have... sought to distance yourself from your offending and your bankruptcy.",
+    "country": "AF",
+    "dateTime": "2022-04-29T22:15",
+    "createdAt": "2022-04-29T22:15",
+    "createdBy": "johndoe",
+    "impactRating": "medium",
+    "latitude": 1,
+    "longitude": 1,
+    "region": "AF",
+    "source": "multiple",
+    "sourceClassification": "official",
+    "caveats": "Former Wimbledon champion Boris Becker has been jailed for two and a half years",
+    "themes": [
+      "commerce",
+      "conflict"
+    ]
+  },
+  {
+    "id": "235f3128-67ae-422a-844f-1783b6b2b4b4",
+    "title": "Russia / Ukraine",
+    "description": "2022 Russian invasion of Ukraine",
+    "country": "AF",
+    "dateTime": "2022-04-29T22:15",
+    "createdAt": "2022-04-29T22:15",
+    "createdBy": "janedoe",
+    "impactRating": "medium",
+    "latitude": 1,
+    "longitude": 1,
+    "region": "AF",
+    "source": "multiple",
+    "sourceClassification": "official",
+    "caveats": "",
+    "themes": [
+      "commerce",
+      "conflict"
+    ]
+  },
+  {
+    "id": "dff129e3-051c-419c-9b78-b6fa12f9fe05",
+    "parentId": "235f3128-67ae-422a-844f-1783b6b2b4b4",
+    "title": "Ukraine war: Russia denies it plans to declare war on 9 May",
+    "description": "Russia has dismissed speculation that it will declare all-out war in Ukraine in the coming days as 'nonsense'. Moscow has up until now denied it is at war, instead referring to the invasion as a 'special military operation'.",
+    "country": "AF",
+    "dateTime": "2022-04-29T22:15",
+    "createdAt": "2022-04-29T22:15",
+    "createdBy": "joebloggs",
+    "impactRating": "medium",
+    "latitude": 1,
+    "longitude": 1,
+    "region": "AF",
+    "source": "multiple",
+    "sourceClassification": "official",
+    "caveats": "",
+    "themes": [
+      "commerce",
+      "conflict"
+    ]
+  }
+]
