@@ -1,0 +1,105 @@
+{% extends "layout.html" %}
+
+{% from "partials/event.html" import eventSummary %}
+
+{% block head %}
+  {{ super() }}
+  <style>
+    .govuk-checkboxes__item { margin-left: 10px; }
+    .govuk-table__cell { vertical-align: middle; }
+  </style>
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBackLink({
+    text: "Back",
+    href: "/admin/event/" + event.id
+  }) }}
+{% endblock %}
+
+{% block content %}
+  <span class="govuk-caption-l">{{ event.title }}</span>
+  <h1 class="govuk-heading-l">Assets</h1>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <form id="form">
+        {{ govukFileUpload({
+          id: "file",
+          name: "file",
+          label: {
+            text: "Upload a file"
+          },
+          attributes: { multiple: '' }
+        }) }}
+
+        <dl id="summary" class="govuk-summary-list" hidden>
+          <template id="uploadRow">
+            <div class="govuk-summary-list__row govuk-summary-list__row--no-actions">
+              <dt class="govuk-summary-list__key">
+              </dt>
+              <dd class="govuk-summary-list__value">
+                <progress id="progress" max="100" value="0" style="width: 100%"></progress>
+              </dd>
+            </div>
+          </template>
+        </dl>
+
+        {{ govukButton({
+          attributes: { id: "uploadButton", hidden: true },
+          text: "Upload",
+          preventDoubleClick: true
+        }) }}
+        {{ govukButton({
+          text: "Clear",
+          type: "reset",
+          classes: "govuk-button--secondary"
+        }) }}
+      </form>
+      <!-- {{ govukSummaryList({
+        rows: rows
+      }) }} -->
+
+      {{ govukTable({
+        
+        firstCellIsHeader: false,
+        head: [
+          {
+            text: "Name",
+            classes: 'govuk-!-width-one-half'
+          },
+          {
+            text: "Size",
+            classes: 'govuk-!-width-one-quarter'
+          },
+          {
+            text: "",
+            classes: 'govuk-!-width-one-quarter'
+          }
+        ],
+        rows: tableRows
+      }) }}
+
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ eventSummary(event) }}
+    </div>
+  </div>
+
+  <br>
+  <details class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Debug
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <pre>{{event | dump(2)}}</pre>
+      <pre>{{assets | dump(2)}}</pre>
+    </div>
+  </details>
+{% endblock %}
+
+{% block bodyEnd %}
+  <script src="{{ assetPath }}/js/event/assets.js"></script>
+{% endblock %}
+

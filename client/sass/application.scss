@@ -6,6 +6,8 @@ $govuk-global-styles: true;
   float: right;
 }
 
+[hidden] { display: none !important; }
+
 // Remove header logo
 .govuk-header__logo {
 	display: none;

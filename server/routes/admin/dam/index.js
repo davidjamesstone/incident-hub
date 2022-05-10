@@ -1,6 +1,4 @@
-const { Errors } = require('../../../models/view/form')
-const { ViewModel, schema } = require('../../../models/view/admin/event/create')
-const api = require('../../../lib/api')
+const joi = require('joi')
 const { scopes } = require('../../../models/roles')
 
 module.exports = [
@@ -15,6 +13,11 @@ module.exports = [
         access: {
           scope: scopes.assets.manage
         }
+      },
+      validate: {
+        query: joi.object().keys({
+          prefix: joi.string().uri({ relativeOnly: true }).required()
+        }).required()
       }
     }
   }

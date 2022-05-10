@@ -1,4 +1,7 @@
+const s3 = require('./s3')
 const { Event, Group } = require('../models/db')
+const config = require('../config')
+const { bucketName, bucketPrefix } = config
 
 const toJson = r => {
   return r && r.toJSON ? r.toJSON() : r
@@ -10,6 +13,21 @@ const item = async p => {
 const list = async p => {
   const rs = await p
   return Array.isArray(rs) ? rs.map(r => toJson(r)) : rs
+}
+
+async function getAllKeys (params, allKeys = []) {
+  const response = await s3.listObjectsV2(params).promise()
+  response.Contents.forEach(obj => allKeys.push({
+    key: obj.Key,
+    filename: obj.Key.replace(params.Prefix, ''),
+    size: obj.Size
+  }))
+
+  if (response.NextContinuationToken) {
+    params.ContinuationToken = response.NextContinuationToken
+    await getAllKeys(params, allKeys)
+  }
+  return allKeys
 }
 
 const impl = {
@@ -33,6 +51,11 @@ const impl = {
     },
     getEvents: id => {
       return list(Event.query().where('groupId', id).withGraphFetched('[country,region,themes]'))
+    }
+  },
+  assets: {
+    find: (eventId) => {
+      return getAllKeys({ Bucket: bucketName, Prefix: `${bucketPrefix}/event/${eventId}/` })
     }
   }
 }

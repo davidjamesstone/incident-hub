@@ -14,7 +14,7 @@ module.exports = [
 
         return [
           { html: `<a href="/event/${id}">${title}</a>` },
-          { html: group ? `<a href="/group/${group.id}">${group.name}</a>` : '' },
+          { html: group ? `<a href="/group/${group.id}">${group.name}</a>` : '<span>None</span>' },
           { text: createdBy },
           { text: date(createdAt).format(DATE_FORMAT) }
         ]

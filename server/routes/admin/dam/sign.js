@@ -3,36 +3,24 @@ const boom = require('@hapi/boom')
 const s3 = require('../../../lib/s3')
 const { scopes } = require('../../../models/roles')
 const config = require('../../../config')
-const bucketName = config.bucketName
+const { bucketName, bucketPrefix } = config
 
 module.exports = {
   method: 'post',
   path: '/dam/sign',
   handler: async (request, h) => {
     try {
-      const { payload } = request
-
-      // Add media row
-      // const { tenantId, projectId, scenarioId } = params
-      const files = payload
-
-      // const existingMedia = await db.Media
-      //   .query()
-      //   .where({ tenantId, projectId, scenarioId })
-      //   .whereIn('name', files.map(f => f.name))
-
-      // const existingMediaMap = {}
-      // existingMedia.forEach(existing => {
-      //   existingMediaMap[existing.name.toLowerCase()] = existing
-      // })
+      const { query, payload } = request
+      const { prefix } = query
+      const { files } = payload
 
       const promises = files.map(async file => {
         const { name } = file
         // const existing = existingMediaMap[name.toLowerCase()]
-        const fileType = file.type
-        const fileSplitter = file.name.split('.')
-        const fileExtention = fileSplitter[fileSplitter.length - 1]
-        const key = `${name}`
+        const type = file.type
+        // const fileSplitter = file.name.split('.')
+        // const fileExtention = fileSplitter[fileSplitter.length - 1]
+        const key = `${bucketPrefix}${prefix}/${name}`
 
         // let result
         // if (existing) {
@@ -60,12 +48,12 @@ module.exports = {
           Fields: {
             key,
             acl: 'private',
-            'content-type': `${fileType}/${fileExtention}`
+            'content-type': type
           },
           conditions: [
             { bucket: bucketName },
             { key },
-            ['starts-with', '$content-type', `${fileType}/`],
+            ['starts-with', '$content-type', `${type}/`],
             { acl: 'private' },
             ['content-length-range', 100, 20000000], // 100Byte - 20MB
             { success_action_status: 201 }
@@ -74,7 +62,7 @@ module.exports = {
 
         const policy = s3.createPresignedPost(sign)
 
-        return { policies: [policy] }
+        return { policy, file }
       })
 
       const results = await Promise.all(promises)
@@ -91,16 +79,16 @@ module.exports = {
       }
     },
     validate: {
-      // params: joi.object().keys({
-      //   tenantId: joi.number().integer().required(),
-      //   projectId: joi.number().integer().required(),
-      //   scenarioId: joi.number().integer().required()
-      // }),
-      payload: joi.array().items(joi.object().keys({
-        name: joi.string().required(),
-        size: joi.number().integer().required(),
-        type: joi.string().allow('image').allow('video').required()
-      }))
+      query: joi.object().keys({
+        prefix: joi.string().uri({ relativeOnly: true }).required()
+      }).required(),
+      payload: joi.object().keys({
+        files: joi.array().items(joi.object().keys({
+          name: joi.string().required(),
+          size: joi.number().integer().required(),
+          type: joi.string().allow('image').allow('video').required()
+        }))
+      })
     }
   }
 }

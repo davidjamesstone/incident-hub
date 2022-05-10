@@ -108,7 +108,7 @@ const THEMES_LABEL = 'Themes'
 const THEMES_OPTIONS = themes.map(dbMapper)
 
 const schema = joi.object().keys({
-  [GROUP_KEY]: joi.string().guid().allow('').label(GROUP_LABEL).required(),
+  [GROUP_KEY]: joi.string().guid().empty('').allow('').label(GROUP_LABEL),
   [TITLE_KEY]: joi.string().max(70).label(TITLE_LABEL)
     .trim().required().messages(TITLE_MESSAGES),
   [DESCRIPTION_KEY]: joi.string().max(DESCRIPTION_MAX_LENGTH).label(DESCRIPTION_LABEL)

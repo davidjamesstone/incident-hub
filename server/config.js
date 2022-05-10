@@ -5,14 +5,16 @@ const envs = ['dev', 'test', 'prod']
 const schema = joi.object().keys({
   port: joi.number().default(3000),
   env: joi.string().valid(...envs).default(envs[0]),
-  eventTableName: joi.string().required()
+  bucketName: joi.string().required(),
+  bucketPrefix: joi.string().required()
 })
 
 // Build config
 const config = {
   port: process.env.PORT,
   env: process.env.NODE_ENV,
-  eventTableName: process.env.EVENT_TABLE_NAME
+  bucketName: process.env.BUCKET_NAME,
+  bucketPrefix: process.env.BUCKET_PREFIX
 }
 
 // Validate config
