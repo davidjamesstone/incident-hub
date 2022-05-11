@@ -15,26 +15,26 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hapi/boom": "9.1.4",
+    "@hapi/boom": "10.0.0",
     "@hapi/hapi": "20.2.2",
     "@hapi/inert": "6.0.5",
     "@hapi/log": "1.0.0",
     "@hapi/vision": "6.1.0",
-    "aws-sdk": "2.1124.0",
+    "aws-sdk": "2.1132.0",
     "blipp": "4.0.2",
-    "dayjs": "1.11.1",
+    "dayjs": "1.11.2",
     "dynamodb-toolbox": "0.3.5",
     "govuk-frontend": "4.0.1",
     "joi": "17.6.0",
     "nunjucks": "3.2.3",
     "objection": "3.0.1",
-    "pg": "^8.7.3"
+    "pg": "8.7.3"
   },
   "devDependencies": {
-    "@hapi/code": "8.0.7",
-    "@hapi/lab": "24.6.0",
+    "@hapi/code": "9.0.0",
+    "@hapi/lab": "25.0.1",
     "codeclimate-test-reporter": "0.5.1",
-    "knex": "^2.0.0",
+    "knex": "2.0.0",
     "node-sass": "7.0.1",
     "standard": "17.0.0"
   }
