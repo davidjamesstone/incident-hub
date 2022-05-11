@@ -12,8 +12,11 @@
     "test": "npm run lint && npm run unit-test",
     "postinstall": "npm run build"
   },
-  "author": "",
+  "author": "Cabinet Office",
   "license": "ISC",
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@hapi/boom": "10.0.0",
     "@hapi/hapi": "20.2.2",
