@@ -1,5 +1,6 @@
-# Cabinet Office Content Dashboard
-(Description of the service)
+# Cabinet Office Incident Hub
+
+Incident Hub web application
 
 # Environment variables
 
