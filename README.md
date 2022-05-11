@@ -7,7 +7,8 @@
 |--------------------|--------------------------|:--------:|---------|:---------------------------:|-------|
 | NODE_ENV           | Node environment         |    no    |         | development,test,production |       |
 | PORT               | Port number              |    no    | 3000    |                             |       |
-| EVENT_TABLE_NAME   | Dynamo event table name  |    yes   |         |                             |       |
+| BUCKET_NAME        | S3 Bucket name           |    yes   |         |                             |       |
+| BUCKET_PREFIX      | S3 Object name prefix    |    yes   |         |                             |       |
 
 # Prerequisites
 
