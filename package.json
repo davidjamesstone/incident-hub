@@ -23,7 +23,6 @@
     "aws-sdk": "2.1132.0",
     "blipp": "4.0.2",
     "dayjs": "1.11.2",
-    "dynamodb-toolbox": "0.3.5",
     "govuk-frontend": "4.0.1",
     "joi": "17.6.0",
     "nunjucks": "3.2.3",
