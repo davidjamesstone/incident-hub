@@ -4,37 +4,18 @@ const s3 = require('../../../lib/s3')
 const api = require('../../../lib/api')
 const config = require('../../../config')
 const { scopes } = require('../../../models/roles')
-const { bucketName, bucketPrefix } = config
 const { filesize } = require('../../../lib/helpers')
+const { bucketName, bucketPrefix } = config
 
 module.exports = [
-  {
-    method: 'GET',
-    path: '/event/{id}',
-    handler: async (request, h) => {
-      return h.view('admin/dam/index')
-    },
-    options: {
-      auth: {
-        access: {
-          scope: scopes.assets.manage
-        }
-      },
-      validate: {
-        query: joi.object().keys({
-          prefix: joi.string().uri({ relativeOnly: true }).required()
-        }).required()
-      }
-    }
-  },
   {
     method: 'GET',
     path: '/event/{id}/assets',
     handler: async (request, h) => {
       const { params } = request
       const { id: eventId } = params
-      const event = await api.events.get(eventId)
-      const assets = await api.assets.find(eventId)
+      const event = await api.event.get(eventId)
+      const assets = await api.asset.find(eventId)
       const rows = assets.map(asset => ({
         key: { html: getLink(asset) },
         value: { text: filesize(asset.size) },
@@ -66,7 +47,7 @@ module.exports = [
     options: {
       auth: {
         access: {
-          scope: scopes.assets.manage
+          scope: scopes.asset.manage
         }
       },
       validate: {
@@ -124,7 +105,7 @@ module.exports = [
     options: {
       auth: {
         access: {
-          scope: scopes.assets.manage
+          scope: scopes.asset.manage
         }
       },
       validate: {

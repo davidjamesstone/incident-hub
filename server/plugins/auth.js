@@ -1,4 +1,3 @@
-const boom = require('@hapi/boom')
 const { roles } = require('../models/roles')
 
 module.exports = {

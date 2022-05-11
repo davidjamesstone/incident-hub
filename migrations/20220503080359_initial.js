@@ -55,7 +55,7 @@ exports.up = function (knex) {
           t.timestamp('date').notNullable().index()
           t.timestamp('publishedDate').nullable().index()
           t.specificType('groupId', 'uuid').references('id')
-            .inTable(`${INCIDENT_HUB_SCHEMA_NAME}.group`).nullable()
+            .inTable(`${INCIDENT_HUB_SCHEMA_NAME}.group`).nullable().index()
           t.specificType('regionId', 'uuid').references('id')
             .inTable(`${INCIDENT_HUB_SCHEMA_NAME}.region`).notNullable()
           t.specificType('countryId', 'uuid').references('id')

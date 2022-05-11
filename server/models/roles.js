@@ -1,19 +1,23 @@
 const scopes = {
-  events: {
+  event: {
     manage: 'events:manage'
   },
-  groups: {
+  group: {
     manage: 'groups:manage'
   },
-  assets: {
+  asset: {
     manage: 'assets:manage'
   }
 }
 
-const { events, groups, assets } = scopes
+const { event, group, asset } = scopes
 
 const roles = {
-  admin: [...Object.values(events), ...Object.values(groups), ...Object.values(assets)]
+  admin: [
+    ...Object.values(event),
+    ...Object.values(group),
+    ...Object.values(asset)
+  ]
 }
 
 module.exports = {

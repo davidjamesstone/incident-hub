@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 {% from "partials/event.html" import eventMedia %}
 {% from "partials/event.html" import eventSummary %}
+{% from "partials/debug.html" import debug %}
 
 {% block beforeContent %}
   {{ govukBreadcrumbs({
@@ -26,15 +27,8 @@
     {{ eventMedia(event, true) }}
     {{ eventSummary(event) }}
 
-    <details class="govuk-details" data-module="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          Debug
-        </span>
-      </summary>
-      <div class="govuk-details__text">        
-        <pre>{{event | dump(2)}}</pre>
-      </div>
-    </details>
+    {% call debug() %}
+      <pre>{{event | dump(2)}}</pre>
+    {% endcall %}
   </div>
 {% endblock %}

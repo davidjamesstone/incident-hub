@@ -31,31 +31,64 @@ async function getAllKeys (params, allKeys = []) {
 }
 
 const impl = {
-  events: {
+  event: {
     create: event => {
-      return item(Event.query().insertGraph(event, { relate: true }))
+      return item(Event.query()
+        .insertGraph(event, { relate: true }))
+    },
+    update: (id, event) => {
+      return item(Event.query()
+        .upsertGraphAndFetch({ id, ...event }, { relate: true }))
     },
     find: () => {
-      return list(Event.query().withGraphFetched('group'))
+      return list(Event.query()
+        .withGraphFetched('group')
+        .orderBy('createdAt', 'desc'))
     },
     get: id => {
-      return item(Event.query().withGraphFetched('[group,country,region,themes]').findById(id))
+      return item(Event.query()
+        .withGraphFetched('[group,country,region,themes]')
+        .findById(id))
     }
   },
   group: {
+    create: group => {
+      return item(Group.query()
+        .insert(group))
+    },
+    update: (id, group) => {
+      return item(Group.query()
+        .updateAndFetchById(id, group))
+    },
     get: id => {
-      return item(Group.query().findById(id))
+      return item(Group.query()
+        .select([
+          'group.*',
+          Group.relatedQuery('events').count().as('eventCount')
+        ])
+        .findById(id))
     },
     find: () => {
-      return list(Group.query())
+      return list(Group.query()
+        .select([
+          'group.*',
+          Group.relatedQuery('events').count().as('eventCount'),
+          Group.relatedQuery('events').max('createdAt').as('lastEventCreatedAt')
+        ])
+        .orderBy('lastEventCreatedAt', 'desc', 'last')
+      )
     },
     getEvents: id => {
-      return list(Event.query().where('groupId', id).withGraphFetched('[country,region,themes]'))
+      return list(Event.query()
+        .where('groupId', id)
+        .withGraphFetched('[country,region,themes]')
+        .orderBy('createdAt', 'desc'))
     }
   },
-  assets: {
+  asset: {
     find: (eventId) => {
-      return getAllKeys({ Bucket: bucketName, Prefix: `${bucketPrefix}/event/${eventId}/` })
+      const prefix = `${bucketPrefix}/event/${eventId}/`
+      return getAllKeys({ Bucket: bucketName, Prefix: prefix })
     }
   }
 }

@@ -2,14 +2,6 @@
 
 {% set formAction = path %}
 
-{% block beforeContent %}
-  {{ super() }}
-  <!-- {{ govukBackLink({
-    text: "Back",
-    href: previousPath
-  }) }} -->
-{% endblock %}
-
 {% block content %}
   {% if errorList.length %}
     {{

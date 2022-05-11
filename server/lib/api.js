@@ -1,18 +1,21 @@
 const impl = require('./impl')
 
 const api = {
-  events: {
-    create: impl.events.create,
-    find: impl.events.find,
-    get: impl.events.get
+  event: {
+    create: impl.event.create,
+    update: impl.event.update,
+    find: impl.event.find,
+    get: impl.event.get
   },
   group: {
+    create: impl.group.create,
+    update: impl.group.update,
     get: impl.group.get,
     find: impl.group.find,
     getEvents: impl.group.getEvents
   },
-  assets: {
-    find: impl.assets.find
+  asset: {
+    find: impl.asset.find
   }
 }
 

@@ -27,8 +27,33 @@ module.exports = {
           const navigation = []
 
           if (auth.isAuthenticated) {
-            ctx.user = auth.credentials.user
-            ctx.credentials = auth.credentials
+            const creds = auth.credentials
+            ctx.user = creds.user
+            ctx.credentials = creds
+
+            navigation.push({
+              href: '/',
+              text: 'Live reporting'
+            })
+
+            navigation.push({
+              href: '/group',
+              text: 'Groups'
+            })
+
+            if (creds.scope.includes(scopes.event.manage)) {
+              navigation.push({
+                href: '/admin/event/create',
+                text: 'New event'
+              })
+            }
+
+            if (creds.scope.includes(scopes.group.manage)) {
+              navigation.push({
+                href: '/admin/group/create',
+                text: 'New group'
+              })
+            }
 
             navigation.push(
               {

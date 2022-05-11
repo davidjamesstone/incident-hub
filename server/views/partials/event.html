@@ -16,7 +16,6 @@
       {% endif %}
     </h3>
     
-    
     <div class="pull-right">
       {{ regionTag(event.region.name) }}
       {{ countryTag(event.country.name) }}
@@ -29,65 +28,78 @@
 {% endmacro %}
 
 {% macro eventSummary(event) %}
+  {% set rows = [
+    {
+      key: {
+        text: "Region"
+      },
+      value: {
+        text: event.region.name
+      }
+    },
+    {
+      key: {
+        text: "Country"
+      },
+      value: {
+        text: event.country.name
+      }
+    },
+    {
+      key: {
+        text: "Source"
+      },
+      value: {
+        text: event.source
+      }
+    },
+    {
+      key: {
+        text: "Source classification"
+      },
+      value: {
+        text: event.sourceClassification
+      }
+    },
+    {
+      key: {
+        text: "Created at"
+      },
+      value: {
+        text: event.createdAt | fromnow
+      }
+    },
+    {
+      key: {
+        text: "Updated at"
+      },
+      value: {
+        text: event.updatedAt | fromnow
+      }
+    },
+    {
+      key: {
+        text: ""
+      },
+      value: {
+        html: "<a href='/admin/event/" + event.id + "/edit'>Edit</a><br>" + "<a href='/admin/event/" + event.id + "/assets'>Assets</a><br>"
+      }
+    }
+  ] %}
+
+  {% if event.group %}
+    {% set rows = (rows.unshift({
+      key: {
+        text: "Group"
+      },
+      value: {
+        html: "<a href='/group/" + event.group.id + "'>" + event.group.name + "</a>"
+      }
+    }), rows) %}
+  {% endif %}
+
   {{ govukSummaryList({
     classes: 'govuk-summary-list--no-border',
-    rows: [
-      {
-        key: {
-          text: "Group"
-        },
-        value: {
-          html: "<a href='/group/" + event.group.id + "'>" + event.group.name + "</a>"
-        }
-      },
-      {
-        key: {
-          text: "Region"
-        },
-        value: {
-          text: event.region.name
-        }
-      },
-      {
-        key: {
-          text: "Country"
-        },
-        value: {
-          text: event.country.name
-        }
-      },
-      {
-        key: {
-          text: "Source"
-        },
-        value: {
-          text: event.source
-        }
-      },
-      {
-        key: {
-          text: "Source classification"
-        },
-        value: {
-          text: event.sourceClassification
-        }
-      },
-      {
-        key: {
-          text: "Created at"
-        },
-        value: {
-          text: event.createdAt
-        }
-      },
-      {
-        key: {
-          text: "Updated at"
-        },
-        value: {
-          text: event.updatedAt
-        }
-      }
-    ]
+    rows: rows
   }) }}
 {% endmacro %}

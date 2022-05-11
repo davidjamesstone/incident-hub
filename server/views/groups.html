@@ -1,12 +1,14 @@
 {% extends "layout.html" %}
 
+{% from "partials/debug.html" import debug %}
+
 {% set mainClasses = "govuk-main-wrapper--auto-spacing" %}
 
 {% block content %}
   {% if credentials.isAdmin %}
     {{ govukButton({
-      text: "New event",
-      href: "/admin/event/create",
+      text: "New group",
+      href: "/admin/group/create",
       classes: "pull-right"
     }) }}
   {% endif  %}
@@ -14,19 +16,19 @@
   <div class="clear">
     <div class="govuk-tabs">
       <h2 class="govuk-tabs__title">
-        Home
+        Groups
       </h2>
       <ul class="govuk-tabs__list">
-        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-          <a class="govuk-tabs__tab" href="#">Live reporting</a>
-        </li>
         <li class="govuk-tabs__list-item">
-          <a class="govuk-tabs__tab" href="/group">Groups</a>
+          <a class="govuk-tabs__tab" href="/">Live reporting</a>
+        </li>
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+          <a class="govuk-tabs__tab" href="#">Groups</a>
         </li>
       </ul>
-      <div class="govuk-tabs__panel">
+      <div class="govuk-tabs__panel">   
         {{ govukTable({
-          caption: "Incidents",
+          caption: "Groups",
           captionClasses: "govuk-table__caption--m",
           firstCellIsHeader: false,
           head: head,
@@ -34,5 +36,9 @@
         }) }}
       </div>
     </div>
+
+    {% call debug() %}
+      <pre>{{groups | dump(2)}}</pre>
+    {% endcall %}
   </div>
 {% endblock %}

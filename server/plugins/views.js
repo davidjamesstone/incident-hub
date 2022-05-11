@@ -42,6 +42,7 @@ module.exports = {
       appVersion: pkg.version,
       assetPath: '/assets',
       serviceName: 'Incident Hub',
+      productName: 'Cabinet Office',
       pageTitle: 'Incident Hub - GOV.UK',
       analyticsAccount
     }

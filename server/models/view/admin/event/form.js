@@ -1,9 +1,7 @@
 const joi = require('joi')
-const { BaseViewModel, baseMessages } = require('../../form')
+const { BaseViewModel, baseMessages } = require('../../base')
 const { countries, regions, themes } = require('../../../../data')
 const dbMapper = rec => ({ value: rec.id, text: rec.name })
-
-const PAGE_HEADING = 'New event'
 
 const GROUP_KEY = 'groupId'
 const GROUP_LABEL = 'Group'
@@ -130,13 +128,11 @@ const schema = joi.object().keys({
 }).messages(baseMessages).required()
 
 class ViewModel extends BaseViewModel {
-  constructor (data, err, { groups }) {
-    super(data, err, {
-      pageHeading: PAGE_HEADING,
-      path: '/admin/event/create'
-    })
+  constructor (data, err, options) {
+    super(data, err, options)
+    const { groups } = options
 
-    const groupOptions = groups.map(({ id: value, name: text }) => ({ value, text }))
+    const groupOptions = groups.map(dbMapper)
     this.addField(GROUP_KEY, {
       name: GROUP_KEY,
       id: GROUP_KEY,
@@ -253,8 +249,26 @@ const optionMapper = (value, prop = 'selected', compare = defaultCompare) => ite
   }
 }
 
+class CreateViewModel extends ViewModel {
+  constructor (data, err, groups) {
+    super(data, err, {
+      pageHeading: 'Create event',
+      groups
+    })
+  }
+}
+
+class EditViewModel extends ViewModel {
+  constructor (data, err, groups) {
+    super(data, err, {
+      pageHeading: 'Edit event',
+      groups
+    })
+  }
+}
+
 module.exports = {
   schema,
-  ViewModel,
-  TITLE_KEY
+  CreateViewModel,
+  EditViewModel
 }

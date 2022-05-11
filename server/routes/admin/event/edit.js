@@ -1,19 +1,23 @@
 const joi = require('joi')
 const api = require('../../../lib/api')
+const date = require('../../../lib/date')
 const { scopes } = require('../../../models/roles')
 const { Errors } = require('../../../models/view/base')
-const { CreateViewModel, schema } = require('../../../models/view/admin/event/form')
+const { EditViewModel, schema } = require('../../../models/view/admin/event/form')
 
 module.exports = [
   {
     method: 'GET',
-    path: '/event/create',
+    path: '/event/{id}/edit',
     handler: async (request, h) => {
-      const { groupId } = request.query
+      const { params } = request
+      const { id } = params
+      const event = await api.event.get(id)
       const groups = await api.group.find()
-      const data = { groupId }
+      event.themes = event.themes.map(theme => theme.id)
+      event.date = date(event.date).format('YYYY-MM-DDTHH:mm')
 
-      return h.view('admin/event/form', new CreateViewModel(data, undefined, groups))
+      return h.view('admin/event/form', new EditViewModel(event, undefined, groups))
     },
     options: {
       auth: {
@@ -22,26 +26,27 @@ module.exports = [
         }
       },
       validate: {
-        query: joi.object().keys({
-          groupId: joi.string().guid()
-        })
+        params: joi.object().keys({
+          id: joi.string().guid().required()
+        }).required()
       }
     }
   },
   {
     method: 'POST',
-    path: '/event/create',
+    path: '/event/{id}/edit',
     handler: async (request, h) => {
-      const payload = request.payload
+      const { params, payload } = request
 
       // Map multiselected themes to objects
       if (Array.isArray(payload.themes)) {
         payload.themes = payload.themes.map(id => ({ id }))
       }
 
-      const event = await api.event.create(payload)
+      const { id } = params
+      const event = await api.event.update(id, payload)
 
-      return h.redirect(`/admin/event/${event.id}/assets`)
+      return h.redirect(`/event/${event.id}`)
     },
     options: {
       auth: {
@@ -55,9 +60,9 @@ module.exports = [
           const { payload } = request
           const errors = Errors.fromJoi(err)
           const groups = await api.group.find()
-          const model = new CreateViewModel(payload, errors, groups)
+          const model = new EditViewModel(payload, errors, groups)
 
-          return h.view('admin/event/form', model).takeover()
+          return h.view('admin/event/create', model).takeover()
         }
       }
     }
