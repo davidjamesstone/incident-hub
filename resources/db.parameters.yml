@@ -1,0 +1,14 @@
+- ParameterKey: EnvironmentName
+  ParameterValue: dev
+- ParameterKey: NetworkStackName
+  ParameterValue: incident-hub-vpc-dev
+- ParameterKey: DatabaseUser
+  ParameterValue: coadmin
+- ParameterKey: DatabasePassword
+  ParameterValue: ABCDE1234
+- ParameterKey: DatabaseName
+  ParameterValue: indicenthub
+- ParameterKey: DatabaseSize
+  ParameterValue: '10'
+- ParameterKey: DatabaseEngine
+  ParameterValue: postgres

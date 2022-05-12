@@ -1,0 +1,6 @@
+- ParameterKey: EnvironmentName
+  ParameterValue: dev
+- ParameterKey: AvailabilityZone1
+  ParameterValue: eu-west-2a
+- ParameterKey: AvailabilityZone2
+  ParameterValue: eu-west-2b
