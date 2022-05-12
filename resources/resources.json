@@ -1,0 +1,231 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "S3BucketName": {
+      "Description": "S3 BucketName",
+      "Type": "String"
+    },
+    "S3FileName": {
+      "Description": "Name of the jar/war file",
+      "Type": "String"
+    },
+    "DBName": {
+      "Default": "mytododb",
+      "Description": "The database name",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "64",
+      "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+    },
+    "DBUser": {
+      "Description": "The database admin account username",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "16",
+      "AllowedPattern": "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription": "must begin with a letter and contain only alphanumeric characters."
+    },
+    "DBPassword": {
+      "NoEcho": "true",
+      "Description": "The database admin account password",
+      "Type": "String",
+      "MinLength": "8",
+      "MaxLength": "41",
+      "AllowedPattern": "[a-zA-Z0-9]*",
+      "ConstraintDescription": "must contain only alphanumeric characters."
+    },
+    "DBAllocatedStorage": {
+      "Default": "5",
+      "Description": "The size of the database (Gb)",
+      "Type": "Number",
+      "MinValue": "5",
+      "MaxValue": "1024",
+      "ConstraintDescription": "must be between 5 and 1024Gb."
+    },
+    "DBInstanceClass": {
+      "Default": "db.t2.micro",
+      "Description": "The database instance type",
+      "Type": "String",
+      "ConstraintDescription": "must select a valid database instance type."
+    },
+    "MultiAZDatabase": {
+      "Default": "false",
+      "Description": "Create a multi-AZ RDS database instance",
+      "Type": "String",
+      "AllowedValues": [
+        "true",
+        "false"
+      ],
+      "ConstraintDescription": "must be either true or false."
+    }
+  },
+  "Resources": {
+    "IncidentHubApplication": {
+      "Type": "AWS::ElasticBeanstalk::Application",
+      "Properties": {
+        "Description": "Incident Hub elastic beanstalk application"
+      }
+    },
+    "IncidentHubApplicationVersion": {
+      "Type": "AWS::ElasticBeanstalk::ApplicationVersion",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "IncidentHubApplication"
+        },
+        "SourceBundle": {
+          "S3Bucket": {
+            "Ref": "S3BucketName"
+          },
+          "S3Key": {
+            "Ref": "S3FileName"
+          }
+        }
+      }
+    },
+    "IncidentHubBeanstalkConfigurationTemplate": {
+      "Type": "AWS::ElasticBeanstalk::ConfigurationTemplate",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "IncidentHubApplication"
+        },
+        "Description": "Incident Hub application",
+        "OptionSettings": [
+          {
+            "Namespace": "aws:rds:dbinstance",
+            "OptionName": "DBAllocatedStorage",
+            "Value": {
+              "Ref": "DBAllocatedStorage"
+            }
+          },
+          {
+            "Namespace": "aws:rds:dbinstance",
+            "OptionName": "DBDeletionPolicy",
+            "Value": "Delete"
+          },
+          {
+            "Namespace": "aws:rds:dbinstance",
+            "OptionName": "DBEngine",
+            "Value": "postgres"
+          },
+          {
+            "Namespace": "aws:rds:dbinstance",
+            "OptionName": "DBEngineVersion",
+            "Value": "13.4"
+          },
+          {
+            "Namespace": "aws:rds:dbinstance",
+            "OptionName": "DBInstanceClass",
+            "Value": {
+              "Ref": "DBInstanceClass"
+            }
+          },
+          {
+            "OptionName": "DBPassword",
+            "Namespace": "aws:rds:dbinstance",
+            "Value": {
+              "Ref": "DBPassword"
+            }
+          },
+          {
+            "Namespace": "aws:rds:dbinstance",
+            "OptionName": "DBUser",
+            "Value": {
+              "Ref": "DBUser"
+            }
+          },
+          {
+            "Namespace": "aws:rds:dbinstance",
+            "OptionName": "MultiAZDatabase",
+            "Value": {
+              "Ref": "MultiAZDatabase"
+            }
+          },
+          {
+            "Namespace": "aws:autoscaling:launchconfiguration",
+            "OptionName": "IamInstanceProfile",
+            "Value": {
+              "Ref": "BeanstalkInstanceProfile"
+            }
+          }
+        ],
+        "SolutionStackName": "64bit Amazon Linux 2 v5.5.2 running Node.js 16"
+      }
+    },
+    "IncidentHubBeanstalkEnvironment": {
+      "Type": "AWS::ElasticBeanstalk::Environment",
+      "Properties": {
+        "ApplicationName": {
+          "Ref": "IncidentHubApplication"
+        },
+        "EnvironmentName": "incident-hub-environment",
+        "TemplateName": {
+          "Ref": "IncidentHubBeanstalkConfigurationTemplate"
+        },
+        "VersionLabel": {
+          "Ref": "IncidentHubApplicationVersion"
+        }
+      }
+    },
+    "BeanstalkInstanceRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": [
+                  "ec2.amazonaws.com"
+                ]
+              },
+              "Action": [
+                "sts:AssumeRole"
+              ]
+            }
+          ]
+        },
+        "Description": "Beanstalk EC2 role",
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/AWSElasticBeanstalkWebTier",
+          "arn:aws:iam::aws:policy/AWSElasticBeanstalkMulticontainerDocker",
+          "arn:aws:iam::aws:policy/AWSElasticBeanstalkWorkerTier"
+        ]
+      }
+    },
+    "BeanstalkInstanceProfile": {
+      "Type": "AWS::IAM::InstanceProfile",
+      "Properties": {
+        "Roles": [
+          {
+            "Ref": "BeanstalkInstanceRole"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "DevURL": {
+      "Description": "The URL of the DEV Elastic Beanstalk environment",
+      "Value": {
+        "Fn::Join": [
+          "",
+          [
+            {
+              "Fn::GetAtt": [
+                "IncidentHubBeanstalkEnvironment",
+                "EndpointURL"
+              ]
+            }
+          ]
+        ]
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-EndpointURL"
+        }
+      }
+    }
+  }
+}

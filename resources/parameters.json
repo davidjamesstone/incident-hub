@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "DBUser",
+    "ParameterValue": "myuser"
+  },
+  {
+    "ParameterKey": "DBPassword",
+    "ParameterValue": "secret1234"
+  },
+  {
+    "ParameterKey": "S3BucketName",
+    "ParameterValue": "incidenthub-dev-files"
+  },
+  {
+    "ParameterKey": "S3FileName",
+    "ParameterValue": "app.zip"
+  }
+]
