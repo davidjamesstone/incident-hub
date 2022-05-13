@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo "[Pre-Build phase]"
+
+  build:
+    commands:
+      - aws cloudformation package --template-file resources/vpc.yml --s3-bucket s3://codepipeline-eu-west-2-72700844990 --output-template-file packaged.yml
+
+  post_build:
+    commands:
+      - aws cloudformation deploy --template-file packaged.yml --stack-name test-abc --parameter-overrides $(jq -r '.[] | [.ParameterKey, .ParameterValue] | "\(.[0])=\(.[1])"' resources/vpc-parameters.json)
+
+artifacts:
+  files:
+    - packaged.yml
